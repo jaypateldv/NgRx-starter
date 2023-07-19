@@ -6,17 +6,17 @@ import { Component } from "@angular/core";
     styleUrls: ["./counter.component.css"],
 })
 export class CounterComponent {
-    counter: number = 0;
+    // counter: number = 0;
+    constructor() {}
+    // onIncrement() {
+    //     this.counter++;
+    // }
 
-    onIncrement() {
-        this.counter++;
-    }
+    // onDecrement() {
+    //     this.counter--;
+    // }
 
-    onDecrement() {
-        this.counter--;
-    }
-
-    onReset() {
-        this.counter = 0;
-    }
+    // onReset() {
+    //     this.counter = 0;
+    // }
 }
