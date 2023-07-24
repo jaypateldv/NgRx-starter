@@ -1,4 +1,8 @@
-export const initialState = {
+export interface CounterState {
+    counter: number;
+    userName: string;
+}
+export const initialState: CounterState = {
     counter: 0,
-    test: "",
+    userName: "Jay Patel",
 };
