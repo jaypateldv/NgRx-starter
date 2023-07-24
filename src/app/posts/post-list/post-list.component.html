@@ -1,0 +1,89 @@
+<h4>Posts List</h4>
+<hr />
+<div>
+    <div class="">
+        <a
+            class="btn btn-outline-primary text-nowrap mb-3"
+            [routerLink]="['/post/add']"
+            >Add Post</a
+        >
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+        <!-- <button
+            class="btn btn-outline-primary"
+            (click)="isAddingPost = !isAddingPost"
+            *ngIf="!isAddingPost"
+        >
+            Add Post
+        </button>
+
+        <button
+            class="btn btn-outline-danger"
+            *ngIf="isAddingPost"
+            (click)="isAddingPost = !isAddingPost"
+        >
+            Cancel
+        </button> -->
+    </div>
+    <table class="table table-striped" *ngIf="posts$ | async as postsData">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let post of postsData">
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.description }}</td>
+            </tr>
+            <tr *ngIf="isAddingPost">
+                <td colspan="3">
+                    <form
+                        (submit)="onAddNewPost(newPostForm)"
+                        #newPostForm="ngForm"
+                        class="d-flex gap-4"
+                    >
+                        <p>
+                            <input
+                                type="number"
+                                name="no"
+                                ngModel
+                                class="form-control w-10"
+                                placeholder="No"
+                            />
+                        </p>
+                        <p>
+                            <input
+                                type="text"
+                                name="title"
+                                ngModel
+                                class="form-control"
+                                placeholder="Title"
+                            />
+                        </p>
+                        <p>
+                            <input
+                                type="text"
+                                name="description"
+                                ngModel
+                                class="form-control"
+                                placeholder="Description"
+                            />
+                        </p>
+                        <button
+                            class="btn btn-outline-success"
+                            *ngIf="isAddingPost"
+                            type="submit"
+                        >
+                            Save
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
