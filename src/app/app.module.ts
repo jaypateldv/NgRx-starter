@@ -15,7 +15,7 @@ import { appReducer } from "./store/app.state";
         ReactiveFormsModule,
         AppRoutingModule,
         BrowserModule,
-        StoreModule.forRoot(appReducer),
+        StoreModule.forRoot({}),
         StoreDevtoolsModule.instrument({}),
     ],
     providers: [],
