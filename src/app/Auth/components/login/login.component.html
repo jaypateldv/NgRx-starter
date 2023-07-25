@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row">
+        <div class="p-3 d-flex justify-content-center align-items-center">
+            <form
+                class="bg-light p-3"
+                [formGroup]="loginForm"
+                (ngSubmit)="login()"
+            >
+                <h3 class="text-secondary">Login</h3>
+                <hr />
+                <div class="form-group mb-3">
+                    <label for="exampleInputEmail1" class="mb-2"
+                        >Email address</label
+                    >
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        placeholder="Enter email"
+                        formControlName="email"
+                    />
+                    <small
+                        class="text-danger"
+                        *ngIf="
+                            loginForm.get('email')?.touched &&
+                            loginForm.get('email')?.errors
+                        "
+                    >
+                        {{ loginForm.get("email")?.errors | json }}
+                    </small>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="exampleInputPassword1" class="mb-2"
+                        >Password</label
+                    >
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="exampleInputPassword1"
+                        placeholder="Password"
+                        formControlName="password"
+                    />
+                    <small
+                        class="text-danger"
+                        *ngIf="
+                            loginForm.get('password')?.touched &&
+                            loginForm.get('password')?.errors
+                        "
+                    >
+                        {{ loginForm.get("password")?.errors | json }}
+                    </small>
+                </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="loginForm.invalid"
+                >
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

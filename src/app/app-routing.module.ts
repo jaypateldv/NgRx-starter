@@ -19,6 +19,11 @@ const routes: Routes = [
             import("./posts/posts.module").then((m) => m.PostsModule),
     },
     {
+        path: "auth",
+        loadChildren: () =>
+            import("./Auth/auth.module").then((m) => m.AuthModule),
+    },
+    {
         path: "**",
         redirectTo: "home",
     },
