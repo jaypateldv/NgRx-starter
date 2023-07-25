@@ -1,16 +1,15 @@
 <form
-    (submit)="onAddNewPost()"
+    (submit)="onUpdatePost()"
     class="col-sm-6 border p-3 mb-3"
     [formGroup]="postForm"
 >
-    <h3>Add Post</h3>
+    <h3>Edit Post</h3>
     <hr />
     <div class="mb-3">
         <label for="">Title</label>
         <input
             type="text"
             name="title"
-            ngModel
             class="form-control"
             placeholder="Title"
             formControlName="title"
@@ -20,7 +19,6 @@
         <label for="">Description</label>
         <textarea
             name="description"
-            ngModel
             class="form-control"
             placeholder="Description"
             formControlName="description"
@@ -56,7 +54,7 @@
             style="margin-right: 3vh"
             [disabled]="postForm.invalid"
         >
-            Save
+            Save changes
         </button>
         <button class="btn btn-outline-danger" [routerLink]="['/post']">
             Cancel

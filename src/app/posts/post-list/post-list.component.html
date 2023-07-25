@@ -27,20 +27,42 @@
         </button> -->
     </div>
     <table class="table table-striped" *ngIf="posts$ | async as postsData">
-        <thead>
+        <thead class="table-light">
             <tr>
                 <th>No</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+            <tr *ngIf="!postsData.length">
+                <td colspan="4">
+                    <div class="alert alert-danger text-center">
+                        No Data Available
+                    </div>
+                </td>
+            </tr>
             <tr *ngFor="let post of postsData">
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
                 <td>{{ post.description }}</td>
+                <td class="d-flex gap-3">
+                    <a
+                        class="btn btn-outline-primary btn-sm"
+                        [routerLink]="['edit', post.id]"
+                    >
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <button
+                        class="btn btn-danger btn-sm"
+                        (click)="onDeletePost(post)"
+                    >
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
             </tr>
-            <tr *ngIf="isAddingPost">
+            <!-- <tr *ngIf="isAddingPost">
                 <td colspan="3">
                     <form
                         (submit)="onAddNewPost(newPostForm)"
@@ -83,7 +105,7 @@
                         </button>
                     </form>
                 </td>
-            </tr>
+            </tr> -->
         </tbody>
     </table>
 </div>

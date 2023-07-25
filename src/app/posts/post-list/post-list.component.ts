@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { Post } from "src/app/shared/component/header/interfaces/post.interface";
 import { AppState } from "src/app/store/app.state";
+import { deletePost } from "../state/post.actions";
 import { getPosts } from "../state/post.selectors";
 
 @Component({
@@ -20,7 +20,9 @@ export class PostListComponent implements OnInit {
         this.posts$ = this.store.select(getPosts);
     }
 
-    onAddNewPost(post: NgForm) {
-        console.log("post", post.value);
+    onDeletePost(post: Post) {
+        if (confirm("Are you sure you want to delete")) {
+            this.store.dispatch(deletePost({ post }));
+        }
     }
 }
