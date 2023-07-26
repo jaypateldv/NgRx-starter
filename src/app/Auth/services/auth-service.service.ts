@@ -9,6 +9,7 @@ import { environment } from "src/environments/environment";
     providedIn: "root",
 })
 export class AuthServiceService {
+    timeoutInterval: any;
     constructor(private http: HttpClient) {}
 
     login(email: string, password: string): Observable<AuthResponseData> {
@@ -23,5 +24,17 @@ export class AuthServiceService {
             new Date().getTime() + +data.expiresIn * 1000
         );
         return new User(data.email, data.idToken, data.localId, expirationDate);
+    }
+
+    setUserInDB(user: User) {
+        localStorage.setItem("userData", JSON.stringify(user));
+
+        const todaysDate = new Date().getTime();
+        const expirationDate = user.expireDate.getTime();
+        const timeInterval = expirationDate - todaysDate;
+
+        this.timeoutInterval = setTimeout(() => {
+            //logout or get refresh token
+        }, timeInterval);
     }
 }

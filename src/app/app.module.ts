@@ -9,14 +9,21 @@ import { AppRoutingModule } from "./app-routing.module";
 import { HeaderComponent } from "./shared/component/header/header.component";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { HttpClientModule } from "@angular/common/http";
+import { LoadingSpinnerComponent } from "./shared/component/loading-spinner/loading-spinner.component";
+import { appReducer } from "./store/app.state";
 @NgModule({
-    declarations: [AppComponent, HomeComponent, HeaderComponent],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        HeaderComponent,
+        LoadingSpinnerComponent,
+    ],
     imports: [
         FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
         BrowserModule,
-        StoreModule.forRoot({}),
+        StoreModule.forRoot(appReducer),
         StoreDevtoolsModule.instrument({}),
         EffectsModule.forRoot({}),
         HttpClientModule,
