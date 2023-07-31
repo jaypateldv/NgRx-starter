@@ -37,7 +37,7 @@
                     >Post</a
                 >
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="!(isAuthenticated | async)">
                 <a
                     class="nav-link"
                     routerLink="auth"
@@ -52,6 +52,9 @@
                     [routerLinkActive]="'active'"
                     >SignUp</a
                 >
+            </li>
+            <li class="nav-item" *ngIf="isAuthenticated | async">
+                <a class="nav-link">Logout</a>
             </li>
         </ul>
     </div>
