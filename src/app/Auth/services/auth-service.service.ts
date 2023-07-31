@@ -37,4 +37,15 @@ export class AuthServiceService {
             //logout or get refresh token
         }, timeInterval);
     }
+
+    getErrorMessage(message: string) {
+        switch (message) {
+            case "EMAIL_NOT_FOUND":
+                return "Email Not Found";
+            case "INVALID_PASSWORD":
+                return "Entered password is invalid";
+            default:
+                return "Something went wrong !!. Please try again";
+        }
+    }
 }
