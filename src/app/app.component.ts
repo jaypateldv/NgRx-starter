@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
+import { autoLogin } from "./Auth/state/auth.actions";
 import { AppState } from "./store/app.state";
 import { getErrorMessage, getLoading } from "./store/shared/shared.selector";
 import { MessageStatus } from "./store/shared/shared.state";
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
         private toastrService: ToastrService
     ) {}
     ngOnInit(): void {
+        this.store.dispatch(autoLogin());
         this.showLoading = this.store.select(getLoading);
         this.store.select(getErrorMessage).subscribe((data) => {
             if (data.message) {

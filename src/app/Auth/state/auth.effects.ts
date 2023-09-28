@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
-import { catchError, exhaustMap, map, tap } from "rxjs/operators";
+import { catchError, exhaustMap, map, mergeMap, tap } from "rxjs/operators";
 import { AppState } from "src/app/store/app.state";
 import {
     setToastMessage,
@@ -12,6 +12,8 @@ import {
 import { MessageStatus } from "src/app/store/shared/shared.state";
 import { AuthServiceService } from "../services/auth-service.service";
 import {
+    autoLogin,
+    autoLogout,
     loginStart,
     loginSuccess,
     signUpStart,
@@ -90,7 +92,7 @@ export class AuthEffects {
                                     },
                                 })
                             );
-                            return loginSuccess({ user });
+                            return loginSuccess({ user, redirection: true });
                         }),
                         catchError((errorResponse) => {
                             this.store.dispatch(
@@ -114,12 +116,35 @@ export class AuthEffects {
         );
     });
 
+    autoLogin$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(autoLogin),
+            mergeMap((action) => {
+                const user = this.authService.getUserFromDB()!;
+                return of(loginSuccess({ user, redirection: false }));
+            })
+        );
+    });
+
     onSuccessRedirect$ = createEffect(
         () => {
             return this.actions$.pipe(
                 ofType(...[loginSuccess, signUpSuccess]),
                 tap((action) => {
                     this.router.navigate(["/home"]);
+                })
+            );
+        },
+        { dispatch: false }
+    );
+
+    logout$ = createEffect(
+        () => {
+            return this.actions$.pipe(
+                ofType(autoLogout),
+                map((action) => {
+                    this.authService.logout();
+                    this.router.navigate(["auth"]);
                 })
             );
         },

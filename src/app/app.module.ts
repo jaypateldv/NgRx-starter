@@ -13,6 +13,7 @@ import { LoadingSpinnerComponent } from "./shared/component/loading-spinner/load
 import { appReducer } from "./store/app.state";
 import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AuthEffects } from "./Auth/state/auth.effects";
 
 @NgModule({
     declarations: [
@@ -27,9 +28,9 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
         AppRoutingModule,
         BrowserModule,
         BrowserAnimationsModule,
+        EffectsModule.forRoot([AuthEffects]),
         StoreModule.forRoot(appReducer),
         StoreDevtoolsModule.instrument({}),
-        EffectsModule.forRoot({}),
         HttpClientModule,
         ToastrModule.forRoot(),
     ],
