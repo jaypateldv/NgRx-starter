@@ -50,7 +50,7 @@ export class AuthEffects {
                                     },
                                 })
                             );
-                            return signUpSuccess({ user });
+                            return signUpSuccess({ user, redirection: true });
                         }),
                         catchError((errorResponse) => {
                             this.store.dispatch(
@@ -131,7 +131,7 @@ export class AuthEffects {
             return this.actions$.pipe(
                 ofType(...[loginSuccess, signUpSuccess]),
                 tap((action) => {
-                    this.router.navigate(["/home"]);
+                    if (action.redirection) this.router.navigate(["/home"]);
                 })
             );
         },
