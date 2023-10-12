@@ -29,4 +29,27 @@ export class PostService {
             post
         );
     }
+    updatePost(post: Post): Observable<Post> {
+        const postData = {
+            [post.id!]: { title: post.title, description: post.description },
+        };
+        return this.http
+            .patch(
+                "https://ngrx-v1-default-rtdb.firebaseio.com/posts.json",
+                postData
+            )
+            .pipe(
+                map((data: any) => {
+                    let key = Object.keys(data)[0];
+                    const post: Post = { ...data[key], id: key };
+                    return post;
+                })
+            );
+    }
+
+    deletePost(id: string) {
+        return this.http.delete(
+            `https://ngrx-v1-default-rtdb.firebaseio.com/posts/${id}.json`
+        );
+    }
 }
