@@ -9,4 +9,9 @@ export class User {
     get expireDate() {
         return this.expirationDate;
     }
+
+    get userToken() {
+        if (Date.now() < this.expirationDate.getTime()) return this.token;
+        else return null;
+    }
 }
