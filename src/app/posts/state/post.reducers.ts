@@ -3,6 +3,7 @@ import {
     addPostSuccess,
     deletePostSuccess,
     loadPostsSuccess,
+    updatePostLoader,
     updatePostSuccess,
 } from "./post.actions";
 import { initialState } from "./post.state";
@@ -31,5 +32,8 @@ const _postReducer = createReducer(
     }),
     on(loadPostsSuccess, (state, action) => {
         return { ...state, posts: action.posts };
+    }),
+    on(updatePostLoader, (state, action) => {
+        return { ...state, isPostLoading: action.isPostLoading };
     })
 );

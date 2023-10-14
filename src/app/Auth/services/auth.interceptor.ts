@@ -22,7 +22,6 @@ export class AuthInterceptor implements HttpInterceptor {
         return this.store.select(getToken).pipe(
             take(1),
             exhaustMap((token) => {
-                console.log("token", token);
                 if (!token) return next.handle(request);
                 else {
                     return next.handle(

@@ -15,6 +15,8 @@ import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthEffects } from "./Auth/state/auth.effects";
 import { AuthInterceptor } from "./Auth/services/auth.interceptor";
+import { StoreRouterConnectingModule } from "@ngrx/router-store";
+import { CustomSerializer } from "./store/router/custom-serializer";
 
 @NgModule({
     declarations: [
@@ -34,6 +36,9 @@ import { AuthInterceptor } from "./Auth/services/auth.interceptor";
         StoreDevtoolsModule.instrument({}),
         HttpClientModule,
         ToastrModule.forRoot(),
+        StoreRouterConnectingModule.forRoot({
+            serializer: CustomSerializer,
+        }),
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

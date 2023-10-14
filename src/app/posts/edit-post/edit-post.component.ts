@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import { Post } from "src/app/shared/component/header/interfaces/post.interface";
@@ -17,11 +17,7 @@ export class EditPostComponent implements OnDestroy {
     postSub: Subscription;
     postForm: FormGroup;
     post: Post;
-    constructor(
-        private store: Store<AppState>,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {}
+    constructor(private store: Store<AppState>, private router: Router) {}
     onUpdatePost() {
         const post: Post = {
             title: this.postForm.value.title,
@@ -32,29 +28,26 @@ export class EditPostComponent implements OnDestroy {
         this.router.navigate(["/post"]);
     }
 
+    createForm() {
+        this.postForm = new FormGroup({
+            title: new FormControl(null, [Validators.minLength(6)]),
+            description: new FormControl(null, [
+                Validators.required,
+                Validators.minLength(10),
+            ]),
+        });
+    }
+
     ngOnInit(): void {
-        this.route.paramMap.subscribe((params) => {
-            const id = params.get("id");
-            this.postSub = this.store
-                .select(getPostById, { id })
-                .subscribe((data) => {
-                    console.log("data", data);
-                    if (data) {
-                        this.post = data;
-                        this.postForm = new FormGroup({
-                            title: new FormControl(this.post.title, [
-                                Validators.required,
-                                Validators.minLength(6),
-                            ]),
-                            description: new FormControl(
-                                this.post.description,
-                                [Validators.required, Validators.minLength(10)]
-                            ),
-                        });
-                    } else {
-                        this.router.navigate(["/post"]);
-                    }
+        this.createForm();
+        this.postSub = this.store.select(getPostById).subscribe((data) => {
+            if (data) {
+                this.post = data;
+                this.postForm.patchValue({
+                    title: this.post.title,
+                    description: this.post.description,
                 });
+            }
         });
     }
 
