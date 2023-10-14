@@ -36,7 +36,7 @@
                     </div>
                 </td>
             </tr>
-            <tr *ngFor="let post of (posts$ | async)">
+            <tr *ngFor="let post of posts$ | async">
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
                 <td>{{ post.description }}</td>
@@ -46,6 +46,12 @@
                         [routerLink]="['edit', post.id]"
                     >
                         <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a
+                        class="btn btn-outline-secondary btn-sm"
+                        [routerLink]="['details', post.id]"
+                    >
+                        <i class="bi bi-box-arrow-up-right"></i>
                     </a>
                     <button
                         class="btn btn-danger btn-sm"
