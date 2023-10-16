@@ -2,15 +2,22 @@
     <i class="bi bi-arrow-left-square"></i> back
 </a>
 <br />
-<div class="col-sm-6 border p-3 mb-3" *ngIf="post | async as post">
+<div class="col-sm-6 border p-3 mb-3">
     <h3>Post Details</h3>
     <hr />
-    <div class="mb-3">
-        <b class="">Title</b>
-        <p class="border p-2 rounded">{{ post.title }}</p>
+    <div class="mb-3" *ngIf="!(post | async)">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
+        </div>
     </div>
-    <div class="mb-3">
-        <b for="">Description</b>
-        <p class="border p-2 rounded">{{ post.description }}</p>
+    <div *ngIf="post | async as post">
+        <div class="mb-3">
+            <b class="">Title</b>
+            <p class="border p-2 rounded">{{ post.title }}</p>
+        </div>
+        <div class="mb-3">
+            <b for="">Description</b>
+            <p class="border p-2 rounded">{{ post.description }}</p>
+        </div>
     </div>
 </div>

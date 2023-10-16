@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { Update } from "@ngrx/entity";
 import { RouterNavigatedAction, ROUTER_NAVIGATION } from "@ngrx/router-store";
 import { Store } from "@ngrx/store";
 import { filter, map, mergeMap, switchMap } from "rxjs";
 import { PostService } from "src/app/Auth/services/post.service";
+import { Post } from "src/app/shared/component/header/interfaces/post.interface";
 import { AppState } from "src/app/store/app.state";
 import { RouterStateUrl } from "src/app/store/router/custom-serializer";
 import {
@@ -66,7 +68,13 @@ export class PostEffects {
                         this.store.dispatch(
                             updatePostLoader({ isPostLoading: false })
                         );
-                        return updatePostSuccess({ post });
+                        const updatedPost: Update<Post> = {
+                            id: action.post.id!,
+                            changes: {
+                                ...action.post,
+                            },
+                        };
+                        return updatePostSuccess({ post: updatedPost });
                     })
                 );
             })
@@ -97,7 +105,7 @@ export class PostEffects {
             switchMap((id) => {
                 return this.postService.getPostById(id).pipe(
                     map((post) => {
-                        const singlePost = [{ ...post, id }];
+                        const singlePost = post ? [{ ...post, id }] : [];
                         return loadPostsSuccess({ posts: singlePost });
                     })
                 );
