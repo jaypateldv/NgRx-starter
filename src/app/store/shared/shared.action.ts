@@ -12,3 +12,4 @@ export const setToastMessage = createAction(
     SER_ERROR_MESSAGE,
     props<{ message: Message }>()
 );
+export const dummyAction = createAction("[Dummy action]");

@@ -3,11 +3,11 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Update } from "@ngrx/entity";
 import { RouterNavigatedAction, ROUTER_NAVIGATION } from "@ngrx/router-store";
 import { Store } from "@ngrx/store";
-import { filter, map, mergeMap, switchMap } from "rxjs";
+import { filter, map, mergeMap, of, switchMap, withLatestFrom } from "rxjs";
 import { PostService } from "src/app/Auth/services/post.service";
 import { Post } from "src/app/shared/component/header/interfaces/post.interface";
 import { AppState } from "src/app/store/app.state";
-import { RouterStateUrl } from "src/app/store/router/custom-serializer";
+import { dummyAction } from "src/app/store/shared/shared.action";
 import {
     addPost,
     addPostSuccess,
@@ -19,6 +19,7 @@ import {
     updatePostLoader,
     updatePostSuccess,
 } from "./post.actions";
+import { getPosts } from "./post.selectors";
 
 @Injectable()
 export class PostEffects {
@@ -102,13 +103,16 @@ export class PostEffects {
             map((r: any) => {
                 return r.payload.routerState.params.id;
             }),
-            switchMap((id) => {
-                return this.postService.getPostById(id).pipe(
-                    map((post) => {
-                        const singlePost = post ? [{ ...post, id }] : [];
-                        return loadPostsSuccess({ posts: singlePost });
-                    })
-                );
+            withLatestFrom(this.store.select(getPosts)),
+            switchMap(([id, posts]) => {
+                if (!posts.length)
+                    return this.postService.getPostById(id).pipe(
+                        map((post) => {
+                            const singlePost = post ? [{ ...post, id }] : [];
+                            return loadPostsSuccess({ posts: singlePost });
+                        })
+                    );
+                else return of(dummyAction());
             })
         );
     });
