@@ -53,10 +53,16 @@
     <div>
         <button
             class="btn btn-success"
+            [disabled]="isAddingPost || postForm.invalid"
             style="margin-right: 3vh"
-            [disabled]="postForm.invalid"
         >
-            Save
+            <span
+                *ngIf="isAddingPost"
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+            ></span>
+            {{ isAddingPost ? "Adding Post" : "Add" }}
         </button>
         <button class="btn btn-outline-danger" [routerLink]="['/post']">
             Cancel

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Store } from "@ngrx/store";
+import { PostEntityService } from "src/app/Auth/services/post-entity.service";
 import { Post } from "src/app/shared/component/header/interfaces/post.interface";
 import { AppState } from "src/app/store/app.state";
 import { addPost } from "../state/post.actions";
@@ -12,15 +13,28 @@ import { addPost } from "../state/post.actions";
 })
 export class AddPostComponent implements OnInit {
     postForm: FormGroup;
-    constructor(private store: Store<AppState>) {}
+    isAddingPost: boolean;
+    constructor(
+        private store: Store<AppState>,
+        private postsEntityService: PostEntityService
+    ) {
+        this.isAddingPost = false;
+    }
     onAddNewPost() {
         console.log("post", this.postForm.value);
         const post: Post = {
             title: this.postForm.value.title,
             description: this.postForm.value.description,
         };
-        this.store.dispatch(addPost({ post }));
-        this.postForm.reset();
+        // // without ngrx/data
+        // this.store.dispatch(addPost({ post }));
+        // this.postForm.reset();
+        // ---------------------------Using ngrx/data-------------------------------------
+        this.isAddingPost = true;
+        this.postsEntityService.add(post).subscribe((data) => {
+            this.postForm.reset();
+            this.isAddingPost = false;
+        });
     }
 
     ngOnInit(): void {

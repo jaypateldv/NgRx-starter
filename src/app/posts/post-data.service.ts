@@ -15,18 +15,32 @@ export class PostsDataService extends DefaultDataService<Post> {
     }
 
     override getAll(options?: HttpOptions | undefined): Observable<Post[]> {
-        return this.http.get(`${environment.FIREBASE_REALTIME_DATABASE}/posts.json`).pipe(
-            map((data: any) => {
-                const posts: Post[] = [];
-                for (const key in data) {
-                    if (data[key]) posts.push({ ...data[key], id: key });
-                }
-                return posts;
-            })
-        );
+        return this.http
+            .get(`${environment.FIREBASE_REALTIME_DATABASE}/posts.json`)
+            .pipe(
+                map((data: any) => {
+                    const posts: Post[] = [];
+                    for (const key in data) {
+                        if (data[key]) posts.push({ ...data[key], id: key });
+                    }
+                    return posts;
+                })
+            );
     }
 
-    geaa(){
-        
+    override add(
+        entity: Post,
+        options?: HttpOptions | undefined
+    ): Observable<Post> {
+        return this.http
+            .post<{ name: string }>(
+                `${environment.FIREBASE_REALTIME_DATABASE}/posts.json`,
+                entity
+            )
+            .pipe(
+                map((data) => {
+                    return { ...entity, id: data.name };
+                })
+            );
     }
 }
