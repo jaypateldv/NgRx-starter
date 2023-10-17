@@ -21,6 +21,7 @@ import { SinglePostComponent } from "./single-post/single-post.component";
 import { EntityDataModule, EntityDataService } from "@ngrx/data";
 import { entityConfig } from "./entity-metadata";
 import { PostsDataService } from "./posts/post-data.service";
+import { PostsResolver } from "./posts/posts.resolver";
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { PostsDataService } from "./posts/post-data.service";
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         PostsDataService,
+        PostsResolver,
     ],
     bootstrap: [AppComponent],
 })

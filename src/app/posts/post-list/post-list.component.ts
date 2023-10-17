@@ -24,8 +24,8 @@ export class PostListComponent implements OnInit {
 
     ngOnInit(): void {
         //using @ngrx/data
-        this.posts$ = this.postEntityService.getAll();
-
+        this.posts$ = this.postEntityService.entities$;
+        this.isPostLoading$ = this.postEntityService.loading$;
         //--------------------------------------------------------------------------
         // with out using @ngrx/data
         // this.posts$ = this.store.select(getPosts);

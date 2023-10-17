@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
+import { PostsResolver } from "./posts/posts.resolver";
 import { AuthGuard } from "./shared/component/guards/auth.guard";
 import { SinglePostComponent } from "./single-post/single-post.component";
 
@@ -19,6 +20,10 @@ const routes: Routes = [
     {
         path: "post",
         canActivate: [AuthGuard],
+        resolve: {
+            posts$: PostsResolver,
+        },
+
         loadChildren: () =>
             import("./posts/posts.module").then((m) => m.PostsModule),
     },
