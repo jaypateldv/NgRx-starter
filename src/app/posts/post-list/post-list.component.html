@@ -1,4 +1,4 @@
-<h4>Posts List</h4>
+<h4>Posts List ({{ postsCount$ | async }})</h4>
 <hr />
 <div>
     <div class="">
@@ -11,8 +11,8 @@
             <router-outlet></router-outlet>
         </div>
     </div>
-    <table class="table table-striped">
-        <thead class="table-light">
+    <table class="table table-light">
+        <thead class="">
             <tr>
                 <th>No</th>
                 <th>Title</th>
@@ -40,21 +40,21 @@
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
                 <td>{{ post.description }}</td>
-                <td class="d-flex gap-3">
-                    <a
-                        class="btn btn-outline-primary btn-sm"
+                <td class="text-nowrap">
+                    <button
+                        class="btn btn-outline-primary btn-sm custom-gap"
                         [routerLink]="['edit', post.id]"
                     >
                         <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a
-                        class="btn btn-outline-secondary btn-sm"
+                    </button>
+                    <button
+                        class="btn btn-outline-secondary btn-sm custom-gap"
                         [routerLink]="['details', post.id]"
                     >
                         <i class="bi bi-box-arrow-up-right"></i>
-                    </a>
+                    </button>
                     <button
-                        class="btn btn-danger btn-sm"
+                        class="btn btn-danger btn-sm ml-2"
                         (click)="onDeletePost(post)"
                     >
                         <i class="bi bi-trash"></i>

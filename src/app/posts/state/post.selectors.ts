@@ -39,3 +39,9 @@ export const getPostLoader = createSelector(
         return state.isPostLoading;
     }
 );
+export const getPostCount = createSelector(
+    getPostsState,
+    (state: PostState) => {
+        return state.count;
+    }
+);
