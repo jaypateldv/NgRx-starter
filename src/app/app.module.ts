@@ -17,7 +17,10 @@ import { AuthEffects } from "./Auth/state/auth.effects";
 import { AuthInterceptor } from "./Auth/services/auth.interceptor";
 import { StoreRouterConnectingModule } from "@ngrx/router-store";
 import { CustomSerializer } from "./store/router/custom-serializer";
-import { SinglePostComponent } from './single-post/single-post.component';
+import { SinglePostComponent } from "./single-post/single-post.component";
+import { EntityDataModule, EntityDataService } from "@ngrx/data";
+import { entityConfig } from "./entity-metadata";
+import { PostsDataService } from "./posts/post-data.service";
 
 @NgModule({
     declarations: [
@@ -41,10 +44,19 @@ import { SinglePostComponent } from './single-post/single-post.component';
         StoreRouterConnectingModule.forRoot({
             serializer: CustomSerializer,
         }),
+        EntityDataModule.forRoot(entityConfig),
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        PostsDataService,
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+    constructor(
+        entityDataService: EntityDataService,
+        postDataService: PostsDataService
+    ) {
+        entityDataService.registerService("Post", postDataService);
+    }
+}

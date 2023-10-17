@@ -29,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
                             // headers: new HttpHeaders({
                             //     auth: `${token}`,
                             // }),
-                            params: request.params.append("auth", token),
+                            // params: request.params.append("auth", token),
                         })
                     );
                 }

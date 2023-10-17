@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
+import { PostEntityService } from "src/app/Auth/services/post-entity.service";
 import { Post } from "src/app/shared/component/header/interfaces/post.interface";
 import { AppState } from "src/app/store/app.state";
 import { deletePost, loadPosts } from "../state/post.actions";
@@ -16,13 +17,21 @@ export class PostListComponent implements OnInit {
     isPostLoading$: Observable<boolean>;
     postsCount$: Observable<number>;
     isAddingPost: boolean = false;
-    constructor(private store: Store<AppState>) {}
+    constructor(
+        private store: Store<AppState>,
+        private postEntityService: PostEntityService
+    ) {}
 
     ngOnInit(): void {
-        this.posts$ = this.store.select(getPosts);
-        this.postsCount$ = this.store.select(getPostCount);
-        this.isPostLoading$ = this.store.select(getPostLoader);
-        this.store.dispatch(loadPosts());
+        //using @ngrx/data
+        this.posts$ = this.postEntityService.getAll();
+
+        //--------------------------------------------------------------------------
+        // with out using @ngrx/data
+        // this.posts$ = this.store.select(getPosts);
+        // this.postsCount$ = this.store.select(getPostCount);
+        // this.isPostLoading$ = this.store.select(getPostLoader);
+        // this.store.dispatch(loadPosts());
     }
 
     onDeletePost(post: Post) {
