@@ -36,7 +36,15 @@ export class PostListComponent implements OnInit {
 
     onDeletePost(post: Post) {
         if (confirm("Are you sure you want to delete")) {
-            this.store.dispatch(deletePost({ post }));
+            // //using @ngrx/data
+            // this.store.dispatch(deletePost({ post }));
+            //--------------------------------------------------------------------------
+            this.isAddingPost = true;
+            this.postEntityService.delete(post).subscribe({
+                next: (data) => {
+                    this.isAddingPost = false; // using as deleting flag
+                },
+            });
         }
     }
 }

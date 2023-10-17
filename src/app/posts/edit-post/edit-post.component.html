@@ -51,10 +51,16 @@
     <div>
         <button
             class="btn btn-success"
+            [disabled]="isEditingPost || postForm.invalid"
             style="margin-right: 3vh"
-            [disabled]="postForm.invalid"
         >
-            Save changes
+            <span
+                *ngIf="isEditingPost"
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+            ></span>
+            {{ isEditingPost ? "Saving Changes" : "Save Change" }}
         </button>
         <button class="btn btn-outline-danger" [routerLink]="['/post']">
             Cancel
