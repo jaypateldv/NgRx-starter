@@ -2,7 +2,7 @@ import { Component, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { PostEntityService } from "src/app/Auth/services/post-entity.service";
 import { Post } from "src/app/shared/component/header/interfaces/post.interface";
 import { AppState } from "src/app/store/app.state";
@@ -20,6 +20,7 @@ export class EditPostComponent implements OnDestroy {
     post: Post;
     id: string;
     isEditingPost: boolean;
+    isLoadingPost: Observable<boolean>;
     constructor(
         private store: Store<AppState>,
         private router: Router,
@@ -41,6 +42,7 @@ export class EditPostComponent implements OnDestroy {
         this.postsEntityService.update(post).subscribe({
             next: (data) => {
                 this.isEditingPost = false;
+                this.router.navigate(["/post"]);
             },
         });
     }
@@ -69,6 +71,7 @@ export class EditPostComponent implements OnDestroy {
         // });
 
         //----------------using ngrx/data------------------
+        this.isLoadingPost = this.postsEntityService.loading$;
         this.route.params.subscribe((data) => {
             this.id = data["id"];
             this.postsEntityService.entities$.subscribe((posts) => {

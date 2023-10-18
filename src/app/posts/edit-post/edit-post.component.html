@@ -5,65 +5,71 @@
 >
     <h3>Edit Post</h3>
     <hr />
-    <div class="mb-3">
-        <label for="">Title</label>
-        <input
-            type="text"
-            name="title"
-            class="form-control"
-            placeholder="Title"
-            formControlName="title"
-        />
+    <div class="d-flex justify-content-center" *ngIf="isLoadingPost | async">
+        <div class="spinner-border" role="status"></div>
     </div>
-    <div class="mb-3">
-        <label for="">Description</label>
-        <textarea
-            name="description"
-            class="form-control"
-            placeholder="Description"
-            formControlName="description"
-        ></textarea>
-    </div>
-    <div class="mb-3">
-        <div
-            *ngIf="
-                postForm.get('title')?.touched && postForm.get('title')?.errors
-            "
-        >
-            Title :
-            <small class="mb-3 text-danger">
-                {{ postForm.get("title")?.errors | json }}
-            </small>
+    <div *ngIf="!(isLoadingPost | async)">
+        <div class="mb-3">
+            <label for="">Title</label>
+            <input
+                type="text"
+                name="title"
+                class="form-control"
+                placeholder="Title"
+                formControlName="title"
+            />
         </div>
-        <hr />
-        <div
-            *ngIf="
-                postForm.get('description')?.touched &&
-                postForm.get('description')?.errors
-            "
-        >
-            Description :
-            <small class="mb-3 text-danger">
-                {{ postForm.get("description")?.errors | json }}
-            </small>
+        <div class="mb-3">
+            <label for="">Description</label>
+            <textarea
+                name="description"
+                class="form-control"
+                placeholder="Description"
+                formControlName="description"
+            ></textarea>
         </div>
-    </div>
-    <div>
-        <button
-            class="btn btn-success"
-            [disabled]="isEditingPost || postForm.invalid"
-            style="margin-right: 3vh"
-        >
-            <span
-                *ngIf="isEditingPost"
-                class="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-            ></span>
-            {{ isEditingPost ? "Saving Changes" : "Save Change" }}
-        </button>
-        <button class="btn btn-outline-danger" [routerLink]="['/post']">
-            Cancel
-        </button>
+        <div class="mb-3">
+            <div
+                *ngIf="
+                    postForm.get('title')?.touched &&
+                    postForm.get('title')?.errors
+                "
+            >
+                Title :
+                <small class="mb-3 text-danger">
+                    {{ postForm.get("title")?.errors | json }}
+                </small>
+            </div>
+            <hr />
+            <div
+                *ngIf="
+                    postForm.get('description')?.touched &&
+                    postForm.get('description')?.errors
+                "
+            >
+                Description :
+                <small class="mb-3 text-danger">
+                    {{ postForm.get("description")?.errors | json }}
+                </small>
+            </div>
+        </div>
+        <div>
+            <button
+                class="btn btn-success"
+                [disabled]="isEditingPost || postForm.invalid"
+                style="margin-right: 3vh"
+            >
+                <span
+                    *ngIf="isEditingPost"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                ></span>
+                {{ isEditingPost ? "Saving Changes" : "Save Change" }}
+            </button>
+            <button class="btn btn-outline-danger" [routerLink]="['/post']">
+                Cancel
+            </button>
+        </div>
     </div>
 </form>

@@ -10,25 +10,50 @@ import { PostListComponent } from "./post-list/post-list.component";
 import { postsReducer } from "./state/post.reducers";
 import { PostEffects } from "./state/post.effects";
 import { POST_STATE_NAME } from "./state/post.selectors";
+import { SinglePostComponent } from "./single-post/single-post.component";
+import { PostsResolver } from "./posts.resolver";
+import { EntityDataService } from "@ngrx/data";
+import { PostsDataService } from "./post-data.service";
 
 const routes: Routes = [
     {
         path: "",
         component: PostListComponent,
-        children: [
-            {
-                path: "add",
-                component: AddPostComponent,
-            },
-            {
-                path: "edit/:id",
-                component: EditPostComponent,
-            },
-        ],
+        resolve: {
+            posts$: PostsResolver,
+        },
     },
+    // children: [
+    {
+        path: "add",
+        component: AddPostComponent,
+        resolve: {
+            posts$: PostsResolver,
+        },
+    },
+    {
+        path: "edit/:id",
+        component: EditPostComponent,
+        resolve: {
+            posts$: PostsResolver,
+        },
+    },
+    {
+        path: "details/:id",
+        component: SinglePostComponent,
+        resolve: {
+            posts$: PostsResolver,
+        },
+    },
+    // ],
 ];
 @NgModule({
-    declarations: [EditPostComponent, AddPostComponent, PostListComponent],
+    declarations: [
+        EditPostComponent,
+        AddPostComponent,
+        PostListComponent,
+        SinglePostComponent,
+    ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -37,6 +62,14 @@ const routes: Routes = [
         StoreModule.forFeature(POST_STATE_NAME, postsReducer),
         EffectsModule.forFeature([PostEffects]),
     ],
+    providers: [PostsResolver],
     exports: [],
 })
-export class PostsModule {}
+export class PostsModule {
+    constructor(
+        entityDataService: EntityDataService,
+        postDataService: PostsDataService
+    ) {
+        entityDataService.registerService("Post", postDataService);
+    }
+}

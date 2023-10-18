@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { PostEntityService } from "src/app/Auth/services/post-entity.service";
 import { Post } from "src/app/shared/component/header/interfaces/post.interface";
@@ -16,12 +17,12 @@ export class AddPostComponent implements OnInit {
     isAddingPost: boolean;
     constructor(
         private store: Store<AppState>,
-        private postsEntityService: PostEntityService
+        private postsEntityService: PostEntityService,
+        private router: Router
     ) {
         this.isAddingPost = false;
     }
     onAddNewPost() {
-        console.log("post", this.postForm.value);
         const post: Post = {
             title: this.postForm.value.title,
             description: this.postForm.value.description,
@@ -34,6 +35,7 @@ export class AddPostComponent implements OnInit {
         this.postsEntityService.add(post).subscribe((data) => {
             this.postForm.reset();
             this.isAddingPost = false;
+            this.router.navigate(["post"]);
         });
     }
 

@@ -7,7 +7,7 @@ import {
 import { first, map, mergeMap, Observable, of, tap } from "rxjs";
 import { PostEntityService } from "../Auth/services/post-entity.service";
 
-@Injectable({ providedIn: "root" })
+@Injectable()
 export class PostsResolver implements Resolve<boolean> {
     constructor(private postEntityService: PostEntityService) {}
     resolve(

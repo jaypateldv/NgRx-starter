@@ -3,7 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { PostsResolver } from "./posts/posts.resolver";
 import { AuthGuard } from "./shared/component/guards/auth.guard";
-import { SinglePostComponent } from "./single-post/single-post.component";
+import { SinglePostComponent } from "./posts/single-post/single-post.component";
 
 const routes: Routes = [
     {
@@ -20,20 +20,18 @@ const routes: Routes = [
     {
         path: "post",
         canActivate: [AuthGuard],
-        resolve: {
-            posts$: PostsResolver,
-        },
         loadChildren: () =>
             import("./posts/posts.module").then((m) => m.PostsModule),
     },
-    {
-        path: "post/details/:id",
-        canActivate: [AuthGuard],
-        resolve: {
-            posts$: PostsResolver,
-        },
-        component: SinglePostComponent,
-    },
+    // move to post module
+    // {
+    //     path: "post/details/:id",
+    //     canActivate: [AuthGuard],
+    //     resolve: {
+    //         posts$: PostsResolver,
+    //     },
+    //     component: SinglePostComponent,
+    // },
     {
         path: "auth",
         loadChildren: () =>

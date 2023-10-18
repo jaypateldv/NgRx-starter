@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { PostEntityService } from "../Auth/services/post-entity.service";
-import { getPostById } from "../posts/state/post.selectors";
-import { Post } from "../shared/component/header/interfaces/post.interface";
-import { AppState } from "../store/app.state";
+import { PostEntityService } from "../../Auth/services/post-entity.service";
+import { getPostById } from "../state/post.selectors";
+import { Post } from "../../shared/component/header/interfaces/post.interface";
+import { AppState } from "../../store/app.state";
 
 @Component({
     selector: "app-single-post",
