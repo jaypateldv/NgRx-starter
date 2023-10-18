@@ -23,13 +23,15 @@ const routes: Routes = [
         resolve: {
             posts$: PostsResolver,
         },
-
         loadChildren: () =>
             import("./posts/posts.module").then((m) => m.PostsModule),
     },
     {
         path: "post/details/:id",
         canActivate: [AuthGuard],
+        resolve: {
+            posts$: PostsResolver,
+        },
         component: SinglePostComponent,
     },
     {

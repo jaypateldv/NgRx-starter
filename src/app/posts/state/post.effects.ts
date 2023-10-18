@@ -94,26 +94,27 @@ export class PostEffects {
         );
     });
 
-    getSinglePOst = createEffect(() => {
-        return this.actions$.pipe(
-            ofType(ROUTER_NAVIGATION),
-            filter((r: RouterNavigatedAction) => {
-                return r.payload.routerState.url.startsWith("/post/details");
-            }),
-            map((r: any) => {
-                return r.payload.routerState.params.id;
-            }),
-            withLatestFrom(this.store.select(getPosts)),
-            switchMap(([id, posts]) => {
-                if (!posts.length)
-                    return this.postService.getPostById(id).pipe(
-                        map((post) => {
-                            const singlePost = post ? [{ ...post, id }] : [];
-                            return loadPostsSuccess({ posts: singlePost });
-                        })
-                    );
-                else return of(dummyAction());
-            })
-        );
-    });
+    // // can use postResolve instead of effect while using ngrx/data
+    // getSinglePOst = createEffect(() => {
+    //     return this.actions$.pipe(
+    //         ofType(ROUTER_NAVIGATION),
+    //         filter((r: RouterNavigatedAction) => {
+    //             return r.payload.routerState.url.startsWith("/post/details");
+    //         }),
+    //         map((r: any) => {
+    //             return r.payload.routerState.params.id;
+    //         }),
+    //         withLatestFrom(this.store.select(getPosts)),
+    //         switchMap(([id, posts]) => {
+    //             if (!posts.length)
+    //                 return this.postService.getPostById(id).pipe(
+    //                     map((post) => {
+    //                         const singlePost = post ? [{ ...post, id }] : [];
+    //                         return loadPostsSuccess({ posts: singlePost });
+    //                     })
+    //                 );
+    //             else return of(dummyAction());
+    //         })
+    //     );
+    // });
 }
